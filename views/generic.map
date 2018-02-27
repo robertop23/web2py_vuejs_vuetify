@@ -1,4 +1,4 @@
-{{"""
+{%"""
 this is an example of usage of google map
 the web2py action should be something like:
 
@@ -17,8 +17,8 @@ the corresponding views/defaut/map.html should be something like:
     \{\{extend 'layout.html'\}\}
     <center>\{\{include 'generic.map'\}\}</center>
 
-"""}}
-  <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key={{=googlemap_key}}" type="text/javascript"></script>
+"""%}
+  <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key={%=googlemap_key%}" type="text/javascript"></script>
     <script type="text/javascript">
     //<![CDATA[
     function load() {
@@ -26,8 +26,8 @@ the corresponding views/defaut/map.html should be something like:
         var map = new GMap2(document.getElementById("map"));
         map.addControl(new GSmallMapControl());
         map.addControl(new GMapTypeControl());
-        map.setCenter(new GLatLng({{=center_latitude}},
-           {{=center_longitude}}), {{=scale}});
+        map.setCenter(new GLatLng({%=center_latitude%},
+           {%=center_longitude%}), {%=scale%});
         // Create a base icon for all of our markers that specifies the
         // shadow, icon dimensions, etc.
         var baseIcon = new GIcon();
@@ -56,11 +56,11 @@ the corresponding views/defaut/map.html should be something like:
            });
            return marker;
         }
-        {{for point in points:}}{{if point.latitude and point.longitude:}}
-          var point = new GLatLng({{=point.latitude}},{{=point.longitude}});
+        {%for point in points:%}{%if point.latitude and point.longitude:%}
+          var point = new GLatLng({%=point.latitude%},{%=point.longitude%});
           map.addOverlay(createMarker(point, 0, 
-            '{{=point.get('map_marker',maker(point))}}'));
-        {{pass}}{{pass}}
+            '{%=point.get('map_marker',maker(point))%}'));
+        {%pass%}{%pass%}
      }
     }
     //]]>

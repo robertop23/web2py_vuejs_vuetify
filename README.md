@@ -15,6 +15,7 @@ Instructions:
 
 - npm install -> install node dependencies
 - npm run watch -> compile node into static/public folder
+- rename private/appconfig_example.ini to rename private/appconfig.ini and update this
 
 The Vue files are inside resources folder
 

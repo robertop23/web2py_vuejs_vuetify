@@ -1,4 +1,4 @@
-{{
+{%
 ###
 # response._vars contains the dictionary returned by the controller action
 # Assuming something like:
@@ -14,4 +14,4 @@
 #   dict(events=events, title='title',link=URL('action'),timeshift=0)
 #
 ###
-from gluon.serializers import ics}}{{=XML(ics(**response._vars))}}
+from gluon.serializers import ics%}{%=XML(ics(**response._vars))%}

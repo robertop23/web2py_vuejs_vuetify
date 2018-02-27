@@ -81,7 +81,7 @@ export default {
       const response = await this.form.post('/api/password/reset')
 
       // Login user if reset successful.
-      const { data } = await this.form.post('/api/login')
+      const { data } = await this.form.post('/user/login')
 
       // Save the token.
       this.$store.dispatch('saveToken', {

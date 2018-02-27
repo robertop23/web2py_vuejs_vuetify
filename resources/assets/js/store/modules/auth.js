@@ -5,7 +5,7 @@ import * as types from '../mutation-types'
 // state
 export const state = {
   user: null,
-  token: Cookies.get('token')
+  token: Cookies.get('token_' + window.config.appName)
 }
 
 // mutations
@@ -15,7 +15,7 @@ export const mutations = {
     remember
   }) {
     state.token = token
-    Cookies.set('token', token, {
+    Cookies.set('token_' + window.config.appName, token, {
       expires: remember ? 365 : null
     })
   },
@@ -28,14 +28,15 @@ export const mutations = {
 
   [types.FETCH_USER_FAILURE](state) {
     state.token = null
-    Cookies.remove('token')
+    Cookies.remove('token_' + window.config.appName)
   },
 
   [types.LOGOUT](state) {
     state.user = null
     state.token = null
 
-    Cookies.remove('token')
+    Cookies.remove('token_' + window.config.appName)
+    Cookies.remove('session_id_' + window.config.appName)
   },
 
   [types.UPDATE_USER](state, {
@@ -60,7 +61,7 @@ export const actions = {
     try {
       const {
         data
-      } = await axios.get('/api/user')
+      } = await axios.get('/user')
 
       commit(types.FETCH_USER_SUCCESS, {
         user: data

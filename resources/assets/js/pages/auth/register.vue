@@ -92,7 +92,7 @@ export default {
       const { data } = await this.form.post('/api/register')
 
       // Log in the user.
-      const { data: { token } } = await this.form.post('/api/login')
+      const { data: { token } } = await this.form.post('/user/login')
 
       // Save the token.
       this.$store.dispatch('saveToken', { token })

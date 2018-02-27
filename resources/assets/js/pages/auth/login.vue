@@ -26,7 +26,7 @@
               :form="form"
               :value.sync="form.password"
               prepend="lock_outline"
-              v-validate="'required|min:8'"
+              v-validate="'required|min:6'"
             ></password-input>
 
             <!-- Remember Me -->
@@ -66,8 +66,8 @@ export default {
   },
   data: () => ({
     form: new Form({
-      email: '',
-      password: ''
+      email: 'robertop23@gmail.com',
+      password: '12345'
     }),
     eye: true,
     remember: false,
@@ -76,24 +76,32 @@ export default {
 
   methods: {
     async login () {
-      if (await this.formHasErrors()) return
-      this.busy = true
+      if (await this.formHasErrors()) return this.busy = true
 
       // Submit the form.
-      const { data } = await this.form.post('/api/login')
+      const { data } = await this.form.post('/api/login.json')
+      if (data.errors != null) {
+          console.log(data.errors)
+          this.$store.dispatch('responseMessage', {
+           type: 'warning',
+           text: data.errors[Object.keys(data.errors)[0]]
+         })
+         this.busy = false
+      }
+      else {
+        // Save the token.
+        this.$store.dispatch('saveToken', {
+          token: data.token,
+          remember: this.remember
+        })
 
-      // Save the token.
-      this.$store.dispatch('saveToken', {
-        token: data.token,
-        remember: this.remember
-      })
+        // Fetch the user.
+        await this.$store.dispatch('fetchUser')
+        this.busy = false
 
-      // Fetch the user.
-      await this.$store.dispatch('fetchUser')
-      this.busy = false
-
-      // Redirect home.
-      this.$router.push({ name: 'home' })
+        // Redirect home.
+        this.$router.push({ name: 'home' })
+      }
     }
   }
 }

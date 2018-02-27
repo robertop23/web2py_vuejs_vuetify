@@ -86,7 +86,8 @@ response.form_label_separator = ''
 # -------------------------------------------------------------------------
 
 # host names must be a list of allowed host names (glob syntax allowed)
-auth = Auth(db, host_names=configuration.get('host.names'))
+auth = Auth(db, host_names=configuration.get('host.names'),
+            jwt={'secret_key': 'secret'}, csrf_prevention=False)
 
 # -------------------------------------------------------------------------
 # create all tables needed by auth, maybe add a list of extra fields
