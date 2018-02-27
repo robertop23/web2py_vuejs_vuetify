@@ -16,6 +16,20 @@ Instructions:
 - npm install -> install node dependencies
 - npm run watch -> compile node into static/public folder
 - rename private/appconfig_example.ini to rename private/appconfig.ini and update this
+- update routes dict from main routes.py to:
+
+```
+routers = dict(
+
+    # base router
+    BASE=dict(
+        default_application='web2py_vuejs_vuetify',
+    ),
+    web2py_vuejs_vuetify=dict(
+        default_function='index',
+    )
+)
+```
 
 The Vue files are inside resources folder
 
