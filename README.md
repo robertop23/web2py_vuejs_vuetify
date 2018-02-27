@@ -11,9 +11,10 @@ Include:
   - vue-router
   - more...
 
+Instructions:
 
-npm install -> install node dependencies
-npm run watch -> compile node into static/public folder
+- npm install -> install node dependencies
+- npm run watch -> compile node into static/public folder
 
 The Vue files are inside resources folder
 
