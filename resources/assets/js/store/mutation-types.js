@@ -1,0 +1,20 @@
+// auth.js
+export const LOGOUT = 'LOGOUT'
+export const SAVE_TOKEN = 'SAVE_TOKEN'
+export const FETCH_USER = 'FETCH_USER'
+export const FETCH_USER_SUCCESS = 'FETCH_USER_SUCCESS'
+export const FETCH_USER_FAILURE = 'FETCH_USER_FAILURE'
+export const UPDATE_USER = 'UPDATE_USER'
+
+// feedback.js
+export const RESPONSE_MSG = 'RESPONSE_MSG'
+export const CLEAR_MSG = 'CLEAR_MSG'
+
+// brand.js
+export const FETCH_BRAND = 'FETCH_BRAND'
+export const FETCH_BRAND_SUCCESS = 'FETCH_BRAND_SUCCESS'
+export const FETCH_BRAND_FAILURE = 'FETCH_BRAND_FAILURE'
+export const UPDATE_BRAND = 'UPDATE_BRAND'
+export const FETCH_BRANDS = 'FETCH_BRANDS'
+export const FETCH_BRANDS_SUCCESS = 'FETCH_BRANDS_SUCCESS'
+export const FETCH_BRANDS_FAILURE = 'FETCH_BRANDS_FAILURE'

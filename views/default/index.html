@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="{%= T.accepted_language %}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>{%= request.application %}</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+  <link href="static/public/css/app.css" rel="stylesheet">
+</head>
+<body>
+  <div id="app"></div>
+
+  {%# Global configuration object %}
+  {% import urllib2 %}
+  {% import json %}
+  {% lng_file_url = 'http://{}:{}/static/public/lang/{}.json'.format(request.env.remote_addr, request.env.server_port, T.accepted_language)%}
+
+  {% language_file = urllib2.urlopen(lng_file_url).read() %}
+  {% config = {} %}
+  {%
+     config['appName'] = request.application
+     config['locale'] =  T.accepted_language
+     config['translations'] =  json.loads(language_file)
+  %}
+  <script>window.config = {%= XML(json.dumps(config))%}</script>
+
+  {%# Polyfill some features via polyfill.io %}
+  {%
+   polyfills = [
+      'Promise',
+      'Object.assign',
+      'Object.values',
+      'Array.prototype.find',
+      'Array.prototype.findIndex',
+      'Array.prototype.includes',
+      'String.prototype.includes',
+      'String.prototype.startsWith',
+      'String.prototype.endsWith',
+  ]
+  %}
+  <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features={%=','.join(polyfills) %}"></script>
+
+  {%# Load the application scripts %}
+  {%if request.is_local:%}
+    <script src="static/public/js/app.js"></script>
+  {% else: %}
+    <script src="static/public/js/manifest.js"></script>
+    <script src="static/public/js/vendor.js"></script>
+    <script src="static/public/js/app.js"></script>
+  {% pass %}
+</body>
+</html>

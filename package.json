@@ -1,0 +1,45 @@
+{
+  "private": true,
+  "scripts": {
+    "phpfixer": "./vendor/bin/phpcbf -w --standard=PSR2 app/*",
+    "dev": "npm run development",
+    "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "watch": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "watch-poll": "npm run watch -- --watch-poll",
+    "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "prod": "npm run production",
+    "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "lint": "standard --plugin html resources/assets/js/**/* --fix"
+  },
+  "dependencies": {
+    "axios": "^0.17.1",
+    "js-cookie": "^2.2.0",
+    "vee-validate": "^2.0.3",
+    "vform": "^0.8.1",
+    "vue": "^2.5.13",
+    "vue-i18n": "^7.4.0",
+    "vue-meta": "^1.4.2",
+    "vue-router": "^3.0.1",
+    "vuetify": "^0.17.6",
+    "vuex": "^3.0.1",
+    "vuex-persistedstate": "^2.4.2",
+    "vuex-router-sync": "^5.0.0"
+  },
+  "devDependencies": {
+    "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "cross-env": "^5.0.5",
+    "eslint": "^3.19.0",
+    "eslint-plugin-html": "^3.2.2",
+    "eslint-plugin-vue-libs": "^1.2.1",
+    "laravel-mix": "^1.7.0",
+    "standard": "^10.0.3",
+    "stylint": "^1.5.9",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.1",
+    "svg-sprite-loader": "^3.2.5",
+    "vue-template-compiler": "^2.5.13",
+    "webpack-bundle-analyzer": "^2.9.0"
+  }
+}
