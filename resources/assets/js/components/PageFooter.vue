@@ -1,6 +1,6 @@
 <template>
   <v-footer :fixed="fixed" app>
-    <span>Sadowado, LLC, &copy; 2018</span>
+    <span>Your brand, &copy; 2018</span>
   </v-footer>
 </template>
 
