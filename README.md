@@ -40,13 +40,10 @@ The Vue files are inside resources folder
 
   - Make all auth process
     - <strike>Fix vue routing</strike>
-    - login
-    - logout
+    - <strike>login<strike>
+    - <strike>logout<strike>
     - register
     - reset password
-[-]#deleted#
-[-]##del##eted
-<emphasis role="strikethrough" revisionflag="deleted">
 
 ## Contributing:
 
