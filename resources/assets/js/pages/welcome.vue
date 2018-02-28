@@ -19,13 +19,9 @@
               {{ title }}
             </div>
             <div class="body-2 my-3">
-              <a href="https://laravel.com/docs">Documentation</a>
-              <a href="https://laracasts.com">Laracasts</a>
-              <a href="https://laravel-news.com">News</a>
-              <a href="https://forge.laravel.com">Forge</a>
-              <a href="https://github.com/laravel/laravel">GitHub</a>
+              <a href="https://github.com/robertop23/web2py_vuejs_vuetify">GitHub</a>
             </div>
-            <img src="static/public/img/v.png" alt="Vuetify.js" class="mt-5">
+            <img :src="title + '/static/public/img/v.png'" alt="Vuetify.js" class="mt-5">
             <div class="display-2 grey--text mt-5">
               Vuetify
             </div>
