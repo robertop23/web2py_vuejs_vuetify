@@ -61,7 +61,7 @@ export const actions = {
     try {
       const {
         data
-      } = await axios.get('/user')
+      } = await axios.get('/' + window.config.appName + '/api/user')
 
       commit(types.FETCH_USER_SUCCESS, {
         user: data
@@ -81,7 +81,7 @@ export const actions = {
     commit
   }) {
     try {
-      await axios.post('/api/logout')
+      await axios.post('/' + window.config.appName + '/api/logout')
     } catch (e) {}
 
     commit(types.LOGOUT)

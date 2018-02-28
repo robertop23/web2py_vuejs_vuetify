@@ -21,7 +21,7 @@
             <div class="body-2 my-3">
               <a href="https://github.com/robertop23/web2py_vuejs_vuetify">GitHub</a>
             </div>
-            <img :src="title + '/static/public/img/v.png'" alt="Vuetify.js" class="mt-5">
+            <img :src="'/' + title + '/static/public/img/v.png'" alt="Vuetify.js" class="mt-5">
             <div class="display-2 grey--text mt-5">
               Vuetify
             </div>

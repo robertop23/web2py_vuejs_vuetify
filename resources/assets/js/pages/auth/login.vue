@@ -79,7 +79,7 @@ export default {
       if (await this.formHasErrors()) return this.busy = true
 
       // Submit the form.
-      const { data } = await this.form.post('/api/login.json')
+      const { data } = await this.form.post('/' + window.config.appName + '/api/login.json')
       if (data.errors != null) {
           console.log(data.errors)
           this.$store.dispatch('responseMessage', {
@@ -96,7 +96,7 @@ export default {
         })
 
         // Fetch the user.
-        await this.$store.dispatch('fetchUser')
+        /await this.$store.dispatch('fetchUser')
         this.busy = false
 
         // Redirect home.
