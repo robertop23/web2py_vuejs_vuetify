@@ -19,7 +19,7 @@ $ cd applications
 ```
 Clone this repo
 ```
-$ git clone https://github.com/robertop23/web2py_vuejs_vuetify/issues
+$ git clone https://github.com/robertop23/web2py_vuejs_vuetify
 ```
 Enter web2py_vuejs_vuetify folder
 ```
