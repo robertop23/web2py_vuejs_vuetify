@@ -1,6 +1,6 @@
-web2py vuejs vuetify
+## web2py vuejs vuetify
 
-This is a proyect to integrate formally Web2py with Vue.JS
+This is a project to integrate formally Web2py with Vue.js
 
 Include:
   - [Web2py](http://web2py.com)
