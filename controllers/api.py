@@ -40,6 +40,16 @@ def api_requires_login(func):
     return wrapper
 
 
+def api_requires_extension(func):
+    def wrapper(*args):
+        if request.extension != 'html':
+            response.view = 'generic.' + request.extension
+        else:
+            response.view = 'generic.json'
+        return func(*args)
+    return wrapper
+
+
 def login():
     email = request.vars.email
     password = request.vars.password
@@ -50,7 +60,6 @@ def login():
         token_url = 'http://{}:{}/{}/api/token'.format(
             request.env.remote_addr, request.env.server_port, request.application)
         r = requests.post(token_url, data=data)
-        print(r)
         if r.status_code == 200:
             # Get Token and contruct the header
             token = r.json()['token']
@@ -69,12 +78,44 @@ def logout():
     authentication = AuthAPI(db).logout(next=None)
     return authentication
 
-# this one receives the credentials and gives you a token refer to gluon/tools.py 1132 line
+
+@api_requires_login
+def user():
+    import hashlib
+    avatar = 'https://www.gravatar.com/avatar/{}.jpg?s=200&d=mm'.format(
+        hashlib.md5(auth.user.email.lower()).hexdigest())
+    user_data = {'name': auth.user.first_name, 'email': auth.user.email, 'avatar': avatar}
+    return user_data
+
+
+#@api_requires_extension
+def register():
+    '''
+        errors	:	None
+        message	:	Registration successful
+        user	:
+        email	:	robertop23@hotmail.com
+        first_name	:	roberto2
+        id	:2L
+        last_name	:	gjkh
+        '''
+    first_name = request.vars.first_name
+    last_name = request.vars.last_name
+    email = request.vars.email
+    password = request.vars.password
+    authentication = AuthAPI(db).register(first_name=first_name,
+                                          last_name=last_name,
+                                          email=email,
+                                          password=password,
+                                          registration_key=None)
+    if not authentication['errors'] is None:
+        error = ['{} {}'.format(k, v) for k, v in authentication['errors'].iteritems()][0]
+        raise HTTP(400, error.replace('_', ' ').lower().capitalize())
+    else:
+        return authentication
 
 
 myjwt = AuthJWT(auth, secret_key='secret')
-
-# this one receives the credentials and gives you a token refer to gluon/tools.py 1132 line
 
 
 def token():
@@ -89,12 +130,3 @@ def protected():
 @api_requires_login
 def myapi():
     return 'hello %s' % auth.user.email
-
-
-@api_requires_login
-def user():
-    import hashlib
-    avatar = 'https://www.gravatar.com/avatar/{}.jpg?s=200&d=mm'.format(
-        hashlib.md5(auth.user.email.lower()).hexdigest())
-    user_data = {'name': auth.user.first_name, 'email': auth.user.email, 'avatar': avatar}
-    return user_data
