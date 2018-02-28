@@ -30,6 +30,10 @@ def index():
 @auth.allows_jwt()
 def api_requires_login(func):
     def wrapper(*args):
+        if request.extension != 'html':
+            response.view = 'generic.' + request.extension
+        else:
+            response.view = 'generic.json'
         if not auth.is_logged_in():
             raise HTTP(401)
         return func(*args)
@@ -87,9 +91,10 @@ def myapi():
     return 'hello %s' % auth.user.email
 
 
+@api_requires_login
 def user():
-    if auth.is_logged_in():
-        user_data = {'name': auth.user.first_name, 'email': auth.user.email}
-        return json.dumps(user_data)
-    else:
-        raise HTTP(401)
+    import hashlib
+    avatar = 'https://www.gravatar.com/avatar/{}.jpg?s=200&d=mm'.format(
+        hashlib.md5(auth.user.email.lower()).hexdigest())
+    user_data = {'name': auth.user.first_name, 'email': auth.user.email, 'avatar': avatar}
+    return user_data

@@ -11,6 +11,12 @@
     <!-- Authenticated -->
     <template v-if="authenticated">
       <progress-bar :show="busy"></progress-bar>
+      <v-avatar
+          size="36px"
+          class="grey lighten-4"
+        >
+          <img :src="user.avatar" alt="avatar">
+        </v-avatar>
       <v-btn flat :to="{ name: 'settings.profile' }">{{ user.name }}</v-btn>
       <v-btn flat @click.prevent="logout">{{ $t('logout') }}</v-btn>
     </template>
