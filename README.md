@@ -47,6 +47,7 @@ The Vue files are inside resources folder
 [-]#deleted#
 [-]##del##eted
 <emphasis role="strikethrough" revisionflag="deleted">
-## Contributing
+
+## Contributing:
 
 Pull requests and stars are always welcome. For bugs and feature requests, [please create an issue](https://github.com/robertop23/web2py_vuejs_vuetify/issues/new).
