@@ -39,7 +39,7 @@ The Vue files are inside resources folder
 ## TODO:
 
   - Make all auth process
-    - Fix vue routing
+    - -Fix vue routing-
     - login
     - logout
     - register
