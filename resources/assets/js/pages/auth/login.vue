@@ -79,7 +79,7 @@ export default {
       if (await this.formHasErrors()) return this.busy = true
 
       // Submit the form.
-      const { data } = await this.form.post(this.$baseURL + '/api/login.json')
+      const { data } = await this.form.post(this.$baseURL + 'api/login')
       if (data.errors != null) {
           this.$store.dispatch('responseMessage', {
            type: 'warning',

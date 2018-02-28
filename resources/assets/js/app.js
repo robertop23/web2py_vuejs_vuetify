@@ -9,13 +9,12 @@ import '~/components'
 Vue.use(Vuetify)
 
 Vue.config.productionTip = true
+Vue.prototype.$baseURL = window.location.href.split('/').slice(0,4).join('/')+'/'
 
 new Vue({
   el: '#app',
   i18n,
   store,
   router,
-  delimiters: ['{{', '}}'],
-  ...App,
-  baseURL: window.location.href.split('/').slice(0,4).join('/')+'/'
+  ...App
 })
