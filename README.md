@@ -11,31 +11,40 @@ Include:
   - vue-router
   - more...
 
-Instructions:
+## Install
 
-- npm install -> install node dependencies
-- npm run watch -> compile node into static/public folder
-- rename private/appconfig_example.ini to rename private/appconfig.ini and update this
-- update routes dict from main routes.py to:
-
+Enter Web2py applications folder
+```sh
+$ cd applications
 ```
-routers = dict(
-
-    # base router
-    BASE=dict(
-        default_application='web2py_vuejs_vuetify',
-    ),
-    web2py_vuejs_vuetify=dict(
-        default_function='index',
-    )
-)
+Clone this repo
+```
+$ git clone https://github.com/robertop23/web2py_vuejs_vuetify/issues
+```
+Enter web2py_vuejs_vuetify folder
+```
+$ cd web2py_vuejs_vuetify
+```
+Install npm dependencies
+```
+$ npm install
+```
+Create and watch your vue app and related Files
+```
+$ npm run watch
 ```
 
 The Vue files are inside resources folder
 
-TODO:
+## TODO:
 
   - Make all auth process
+    - Fix vue routing
     - login
+    - logout
     - register
     - reset password
+
+## Contributing
+
+Pull requests and stars are always welcome. For bugs and feature requests, [please create an issue](https://github.com/robertop23/web2py_vuejs_vuetify/issues/new).

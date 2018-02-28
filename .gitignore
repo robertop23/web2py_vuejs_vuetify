@@ -3,4 +3,6 @@ sessions
 errors
 *.pyc
 databases
-static/public
+static/public/js
+static/public/css
+static/public/img
