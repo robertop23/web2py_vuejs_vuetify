@@ -16,7 +16,7 @@
   {% import urllib2 %}
   {% import json %}
   {% lng_file_url = 'http://{}:{}/{}/static/public/lang/{}.json'.format(request.env.remote_addr, request.env.server_port, request.application, T.accepted_language)%}
-
+  {%print lng_file_url %}
   {% language_file = urllib2.urlopen(lng_file_url).read() %}
   {% config = {} %}
   {%
