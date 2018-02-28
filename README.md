@@ -3,12 +3,13 @@ web2py vuejs vuetify
 This is a proyect to integrate formally Web2py with Vue.JS
 
 Include:
-  - Vue.js
-  - Vuetify
-  - vee-validate
-  - axios
-  - vue-i18n
-  - vue-router
+  - [Web2py](http://web2py.com)
+  - [Vue.js](https://vuejs.org)
+  - [Vuetify](https://vuetifyjs.com)
+  - [vee-validate](https://github.com/baianat/vee-validate)
+  - [axios](https://github.com/axios/axios)
+  - [vue-i18n](https://github.com/kazupon/vue-i18n)
+  - [vue-router](https://router.vuejs.org)
   - more...
 
 ## Install
