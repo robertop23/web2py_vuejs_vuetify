@@ -5,7 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>{%= request.application %}</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
-  <link href="static/public/css/app.css" rel="stylesheet">
+  {%
+  response.files.insert(0,URL('static','public/css/app.css'))
+  %}
 </head>
 <body>
   <div id="app"></div>
@@ -13,7 +15,7 @@
   {%# Global configuration object %}
   {% import urllib2 %}
   {% import json %}
-  {% lng_file_url = 'http://{}:{}/static/public/lang/{}.json'.format(request.env.remote_addr, request.env.server_port, T.accepted_language)%}
+  {% lng_file_url = 'http://{}:{}/{}/static/public/lang/{}.json'.format(request.env.remote_addr, request.env.server_port, request.application, T.accepted_language)%}
 
   {% language_file = urllib2.urlopen(lng_file_url).read() %}
   {% config = {} %}
@@ -42,11 +44,16 @@
 
   {%# Load the application scripts %}
   {%if request.is_local:%}
-    <script src="static/public/js/app.js"></script>
+    {%
+    response.files.insert(1,URL('static','public/js/app.js'))
+    %}
   {% else: %}
-    <script src="static/public/js/manifest.js"></script>
-    <script src="static/public/js/vendor.js"></script>
-    <script src="static/public/js/app.js"></script>
+    {%
+    response.files.insert(1,URL('static','js/manifest.js'))
+    response.files.insert(2,URL('static','js/vendor.js'))
+    response.files.insert(3,URL('static','js/app.js'))
+    %}
   {% pass %}
+  {%response.include_files()%}
 </body>
 </html>
