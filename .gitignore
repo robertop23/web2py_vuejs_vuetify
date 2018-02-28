@@ -4,4 +4,3 @@ errors
 *.pyc
 databases
 static/public
-private/appconfig.ini
