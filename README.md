@@ -39,12 +39,14 @@ The Vue files are inside resources folder
 ## TODO:
 
   - Make all auth process
-    - -Fix vue routing-
+    - <strike>Fix vue routing</strike>
     - login
     - logout
     - register
     - reset password
-
+[-]#deleted#
+[-]##del##eted
+<emphasis role="strikethrough" revisionflag="deleted">
 ## Contributing
 
 Pull requests and stars are always welcome. For bugs and feature requests, [please create an issue](https://github.com/robertop23/web2py_vuejs_vuetify/issues/new).
