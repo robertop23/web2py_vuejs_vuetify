@@ -2,6 +2,7 @@ import axios from 'axios'
 import Cookies from 'js-cookie'
 import * as types from '../mutation-types'
 
+var self = this
 // state
 export const state = {
   user: null,
@@ -61,7 +62,7 @@ export const actions = {
     try {
       const {
         data
-      } = await axios.get('/' + window.config.appName + '/api/user')
+      } = await axios.get(this.$baseURL + '/api/user')
 
       commit(types.FETCH_USER_SUCCESS, {
         user: data
@@ -81,7 +82,7 @@ export const actions = {
     commit
   }) {
     try {
-      await axios.get('/' + window.config.appName + '/api/logout')
+      await axios.get(this.$baseURL + '/api/logout')
     } catch (e) {}
 
     commit(types.LOGOUT)

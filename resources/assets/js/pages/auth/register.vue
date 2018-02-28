@@ -12,12 +12,23 @@
             <!-- Name -->
             <text-input
               :form="form"
-              :label="$t('name')"
+              :label="$t('first_name')"
               :v-errors="errors"
-              :value.sync="form.name"
+              :value.sync="form.first_name"
               counter="30"
               name="name"
-              v-validate="'required|max:30'"
+
+            ></text-input>
+
+            <!-- Last Name -->
+            <text-input
+              :form="form"
+              :label="$t('last_name')"
+              :v-errors="errors"
+              :value.sync="form.last_name"
+              counter="30"
+              name="name"
+
             ></text-input>
 
             <!-- Email -->
@@ -27,7 +38,7 @@
               :v-errors="errors"
               :value.sync="form.email"
               name="email"
-              v-validate="'required|email'"
+
             ></email-input>
 
             <!-- Password -->
@@ -37,7 +48,7 @@
               :v-errors="errors"
               :value.sync="form.password"
               v-on:eye="eye = $event"
-              v-validate="'required|min:8'"
+
             ></password-input>
 
             <!-- Password Confirmation -->
@@ -50,13 +61,20 @@
               data-vv-as="password"
               hide-icon="true"
               name="password_confirmation"
-              v-validate="'required|confirmed:password'"
+
             ></password-input>
 
+            <submit-button :block="true" :form="form" :label="$t('register')"></submit-button>
           </v-card-text>
-
+<!--
+v-validate="'required|max:30'"
+v-validate="'required|max:30'"
+v-validate="'required|email'"
+v-validate="'required|min:6'"
+v-validate="'required|confirmed:password'"
+-->
           <v-card-actions>
-            <submit-button :form="form" :label="$t('register')"></submit-button>
+
           </v-card-actions>
         </form>
       </v-card>
@@ -76,7 +94,8 @@ export default {
 
   data: () => ({
     form: new Form({
-      name: '',
+      first_name: '',
+      last_name: '',
       email: '',
       password: '',
       password_confirmation: ''
@@ -89,10 +108,10 @@ export default {
       if (await this.formHasErrors()) return
 
       // Register the user.
-      const { data } = await this.form.post('/api/register')
+      const { data } = await this.form.post(this.$baseURL + '/api/register')
 
       // Log in the user.
-      const { data: { token } } = await this.form.post('/user/login')
+      const { data: { token } } = await this.form.post(this.$baseURL + '/api/login')
 
       // Save the token.
       this.$store.dispatch('saveToken', { token })

@@ -8,7 +8,7 @@ import '~/components'
 
 Vue.use(Vuetify)
 
-Vue.config.productionTip = false
+Vue.config.productionTip = true
 
 new Vue({
   el: '#app',
@@ -17,5 +17,5 @@ new Vue({
   router,
   delimiters: ['{{', '}}'],
   ...App,
-
+  baseURL: window.location.href.split('/').slice(0,4).join('/')+'/'
 })

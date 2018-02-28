@@ -79,9 +79,8 @@ export default {
       if (await this.formHasErrors()) return this.busy = true
 
       // Submit the form.
-      const { data } = await this.form.post('/' + window.config.appName + '/api/login.json')
+      const { data } = await this.form.post(this.$baseURL + '/api/login.json')
       if (data.errors != null) {
-          console.log(data.errors)
           this.$store.dispatch('responseMessage', {
            type: 'warning',
            text: data.errors[Object.keys(data.errors)[0]]
