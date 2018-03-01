@@ -79,11 +79,10 @@ export default {
       if (await this.formHasErrors()) return this.busy = true
       this.$data.form['remember'] = this.remember
       // Submit the form.
-      await this.form.post(this.$baseURL + 'api/login')
-
+      const { data: { token } } = await this.form.post(this.$baseURL + 'api/login')
       // Save the token.
       this.$store.dispatch('saveToken', {
-        token: data.token,
+        token: token,
         remember: this.remember
       })
 
