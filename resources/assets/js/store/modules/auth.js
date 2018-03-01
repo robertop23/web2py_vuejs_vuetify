@@ -81,6 +81,7 @@ export const actions = {
   }) {
     try {
       await axios.get('api/logout')
+      this.$router.push({ name: 'login' })
     } catch (e) {}
 
     commit(types.LOGOUT)
