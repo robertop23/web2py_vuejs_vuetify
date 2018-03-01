@@ -38,7 +38,7 @@
               value="true"
             ></v-checkbox>
 
-            <v-btn :block="true" color="primary">{{ $t('login') }}</v-btn>
+            <submit-button :block="true" :form="form" :label="$t('login')"></submit-button>
 
           </v-card-text>
           <v-card-actions>
@@ -80,6 +80,7 @@ export default {
       this.$data.form['remember'] = this.remember
       // Submit the form.
       const { data: { token } } = await this.form.post(this.$baseURL + 'api/login')
+      console.log(token)
       // Save the token.
       this.$store.dispatch('saveToken', {
         token: token,
