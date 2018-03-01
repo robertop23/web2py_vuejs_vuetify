@@ -17,7 +17,7 @@
         >
           <img :src="user.avatar">
         </v-avatar>
-      <v-btn flat :to="{ name: 'settings.profile' }">{{ user.name }}</v-btn>
+      <v-btn flat :to="{ name: 'settings.profile' }">{{ user.first_name }}</v-btn>
       <v-btn flat @click.prevent="logout">{{ $t('logout') }}</v-btn>
     </template>
 
