@@ -38,7 +38,7 @@
               value="true"
             ></v-checkbox>
 
-            <submit-button :block="true" :form="form" :label="$t('login')"></submit-button>
+            <v-btn :block="true" color="primary">{{ $t('login') }}</v-btn>
 
           </v-card-text>
           <v-card-actions>
