@@ -24,11 +24,18 @@ axios.interceptors.response.use(response => response, error => {
     })
   }
 
-  if (status >= 400) {
-    store.dispatch('responseMessage', {
-      type: 'error',
-      text: data,
-    })
+  if (status == 400) {
+    console.log(data)
+    if (data == 'Token is expired'){
+      store.dispatch('logout')
+      console.log('logout be expiration')
+    }
+    else {
+      store.dispatch('responseMessage', {
+        type: 'error',
+        text: data,
+      })
+    }
   }
 
   if (status === 401 && store.getters.authCheck) {
