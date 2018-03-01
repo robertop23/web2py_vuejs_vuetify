@@ -9,27 +9,28 @@
         <!-- Name -->
         <text-input
           :form="form"
-          :label="$t('name')"
+          :label="$t('first_name')"
           :v-errors="errors"
-          :value.sync="form.name"
+          :value.sync="form.first_name"
           counter="30"
-          name="name"
+          name="first_name"
           v-validate="'required|max:30'"
         ></text-input>
 
-        <!-- Email -->
-        <email-input
+        <!-- Last Name -->
+        <text-input
           :form="form"
-          :label="$t('email')"
+          :label="$t('last_name')"
           :v-errors="errors"
-          :value.sync="form.email"
-          name="email"
-          v-validate="'required|email'"
-        ></email-input>
+          :value.sync="form.last_name"
+          counter="30"
+          name="last_name"
+          v-validate="'required|max:30'"
+        ></text-input>
 
       </v-card-text>
       <v-card-actions>
-        <submit-button :flat="true" :form="form" :label="$t('update')"></submit-button>
+        <submit-button :block="true" :form="form" :label="$t('update')"></submit-button>
       </v-card-actions>
     </form>
   </v-card>
@@ -43,8 +44,8 @@ export default {
   name: 'profile-view',
   data: () => ({
     form: new Form({
-      name: '',
-      email: ''
+      first_name: '',
+      last_name: ''
     })
   }),
 
@@ -64,10 +65,10 @@ export default {
       if (await this.formHasErrors()) return
 
       this.$emit('busy', true)
-
-      const { data } = await this.form.patch('/api/settings/profile')
-
-      await this.$store.dispatch('updateUser', { user: data })
+      // Update profile
+      const { data: { user } } = await this.form.patch(this.$baseURL + 'api/profile')
+      // Update User data
+      await this.$store.dispatch('updateUser', { user: user })
       this.$emit('busy', false)
 
       this.$store.dispatch('responseMessage', {
