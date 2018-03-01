@@ -2,42 +2,9 @@ import json
 from gluon.tools import AuthJWT, AuthAPI
 import requests
 
+myjwt = AuthJWT(auth, secret_key='secret')
 
-@request.restful()
-def index():
-    response.view = 'generic.' + request.extension
-
-    def GET(*args, **vars):
-        patterns = 'auto'
-        parser = db.parse_as_rest(patterns, args, vars)
-        if parser.status == 200:
-            return dict(content=parser.response)
-        else:
-            raise HTTP(parser.status, parser.error)
-
-    def POST(table_name, **vars):
-        return dict(db[table_name].validate_and_insert(**vars))
-
-    def PUT(table_name, **vars):
-        return dict()
-
-    def DELETE(table_name, **vars):
-        return dict()
-
-    return locals()
-
-
-@auth.allows_jwt()
-def api_requires_login(func):
-    def wrapper(*args):
-        if request.extension != 'html':
-            response.view = 'generic.' + request.extension
-        else:
-            response.view = 'generic.json'
-        if not auth.is_logged_in():
-            raise HTTP(401)
-        return func(*args)
-    return wrapper
+# Decorators
 
 
 def api_requires_extension(func):
@@ -50,13 +17,31 @@ def api_requires_extension(func):
     return wrapper
 
 
+@api_requires_extension
+@myjwt.allows_jwt()
+def api_requires_login(func):
+    def wrapper(*args):
+        if not auth.is_logged_in():
+            raise HTTP(401)
+        return func(*args)
+    return wrapper
+
+# User API
+
+
+def token():
+    return myjwt.jwt_token_manager()
+
+
+@api_requires_extension
 def login():
     email = request.vars.email
     password = request.vars.password
+    remember = request.vars.remember
     # remember_me = request.vars.remember
     authentication = AuthAPI(db).login(email=email, password=password)
     if authentication['message'] == 'Logged in':
-        data = {'username': email, 'password': password}
+        data = {'username': email, 'password': password, 'remember': remember}
         token_url = 'http://{}:{}/{}/api/token'.format(
             request.env.remote_addr, request.env.server_port, request.application)
         r = requests.post(token_url, data=data)
@@ -66,17 +51,20 @@ def login():
             authentication['token'] = token
             return authentication
         else:
-            authentication['token'] = None
-            return authentication
-
+            raise HTTP(400, 'Cannot get token')
     else:
-        authentication['token'] = None
-        return authentication
+        error = ['{}'.format(v) for k, v in authentication['errors'].iteritems()][0]
+        raise HTTP(400, error.replace('_', ' ').lower().capitalize())
 
 
+@api_requires_login
 def logout():
     authentication = AuthAPI(db).logout(next=None)
-    return authentication
+    if authentication['message'] == 'Logged out':
+        return authentication
+    else:
+        error = ['{}'.format(k, v) for k, v in authentication['errors'].iteritems()][0]
+        raise HTTP(400, error.replace('_', ' ').lower().capitalize())
 
 
 @api_requires_login
@@ -84,21 +72,13 @@ def user():
     import hashlib
     avatar = 'https://www.gravatar.com/avatar/{}.jpg?s=200&d=mm'.format(
         hashlib.md5(auth.user.email.lower()).hexdigest())
-    user_data = {'name': auth.user.first_name, 'email': auth.user.email, 'avatar': avatar}
+    user_data = {'first_name': auth.user.first_name, 'email': auth.user.email, 'avatar': avatar}
     return user_data
 
 
-#@api_requires_extension
+@api_requires_extension
 def register():
-    '''
-        errors	:	None
-        message	:	Registration successful
-        user	:
-        email	:	robertop23@hotmail.com
-        first_name	:	roberto2
-        id	:2L
-        last_name	:	gjkh
-        '''
+
     first_name = request.vars.first_name
     last_name = request.vars.last_name
     email = request.vars.email
@@ -108,23 +88,21 @@ def register():
                                           email=email,
                                           password=password,
                                           registration_key=None)
-    if not authentication['errors'] is None:
-        error = ['{} {}'.format(k, v) for k, v in authentication['errors'].iteritems()][0]
-        raise HTTP(400, error.replace('_', ' ').lower().capitalize())
-    else:
+    if authentication['message'] == 'Registration successful':
         return authentication
+    else:
+        error = ['{}'.format(k, v) for k, v in authentication['errors'].iteritems()][0]
+        raise HTTP(400, error.replace('_', ' ').lower().capitalize())
+
+# Test jwt
 
 
-myjwt = AuthJWT(auth, secret_key='secret')
+@myjwt.allows_jwt(required=True, verify_expiration=True)
+def unprotected():
+    if auth.user:
+        return '%s$%s' % (request.now, auth.user_id)
 
-
-def token():
-    return myjwt.jwt_token_manager()
-
-
-@api_requires_login
-def protected():
-    return '%s$%s' % (request.now, auth.user_id)
+    return "No auth info!"
 
 
 @api_requires_login
