@@ -17,7 +17,7 @@
               :value.sync="form.first_name"
               counter="30"
               name="name"
-
+              v-validate="'required|max:30'"
             ></text-input>
 
             <!-- Last Name -->
@@ -28,7 +28,7 @@
               :value.sync="form.last_name"
               counter="30"
               name="name"
-
+              v-validate="'required|max:30'"
             ></text-input>
 
             <!-- Email -->
@@ -38,7 +38,7 @@
               :v-errors="errors"
               :value.sync="form.email"
               name="email"
-
+              v-validate="'required|email'"
             ></email-input>
 
             <!-- Password -->
@@ -48,7 +48,7 @@
               :v-errors="errors"
               :value.sync="form.password"
               v-on:eye="eye = $event"
-
+              v-validate="'required|min:6'"
             ></password-input>
 
             <!-- Password Confirmation -->
@@ -61,21 +61,11 @@
               data-vv-as="password"
               hide-icon="true"
               name="password_confirmation"
-
+              v-validate="'required|confirmed:password'"
             ></password-input>
 
             <submit-button :block="true" :form="form" :label="$t('register')"></submit-button>
           </v-card-text>
-<!--
-v-validate="'required|max:30'"
-v-validate="'required|max:30'"
-v-validate="'required|email'"
-v-validate="'required|min:6'"
-v-validate="'required|confirmed:password'"
--->
-          <v-card-actions>
-
-          </v-card-actions>
         </form>
       </v-card>
     </v-flex>
@@ -108,16 +98,16 @@ export default {
       if (await this.formHasErrors()) return
 
       // Register the user.
-      const { data } = await this.form.post(this.$baseURL + '/api/register')
-
+      await this.form.post(this.$baseURL + 'api/register')
       // Log in the user.
-      const { data: { token } } = await this.form.post(this.$baseURL + '/api/login')
-
+      const { data: { token } } = await this.form.post(this.$baseURL + 'api/login')
       // Save the token.
-      this.$store.dispatch('saveToken', { token })
+      this.$store.dispatch('saveToken', {
+        token: token
+      })
 
       // Update the user.
-      await this.$store.dispatch('updateUser', { user: data })
+      await this.$store.dispatch('fetchUser')
 
       // Redirect home.
       this.$router.push({ name: 'home' })
