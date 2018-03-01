@@ -26,8 +26,15 @@ axios.interceptors.response.use(response => response, error => {
 
   if (status == 400) {
     if (data == 'Token is expired'){
-      store.dispatch('logout')
-      console.log('logout be expiration')
+      store.dispatch('responseMessage', {
+        type: 'warning',
+        text: i18n.t('token_expired_alert_text'),
+      })
+      .then(async () => {
+        await store.dispatch('logout')
+
+        router.push({ name: 'login' })
+      })
     }
     else {
       store.dispatch('responseMessage', {
