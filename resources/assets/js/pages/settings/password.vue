@@ -11,9 +11,20 @@
           :form="form"
           :hint="$t('password_length_hint')"
           :v-errors="errors"
-          :value.sync="form.password"
+          :value.sync="form.old_password"
           v-on:eye="eye = $event"
-          v-validate="'required|min:8'"
+          name="old_password"
+          v-validate="'required|min:6'"
+        ></password-input>
+
+        <!-- New Password -->
+        <password-input
+          :form="form"
+          :hint="$t('password_length_hint')"
+          :v-errors="errors"
+          :value.sync="form.new_password"
+          v-on:eye="eye = $event"
+          v-validate="'required|min:6'"
         ></password-input>
 
         <!-- Password Confirmation -->
@@ -22,18 +33,17 @@
           :hide="eye"
           :label="$t('confirm_password')"
           :v-errors="errors"
-          :value.sync="form.password_confirmation"
-          data-vv-as="password"
+          :value.sync="form.new_password2"
+          data-vv-as="new_password"
           hide-icon="true"
-          name="password_confirmation"
+          name="new_password2"
           v-validate="'required|confirmed:password'"
         ></password-input>
-
         <!-- <form-feedback :form="form" :text="$t('password_updated')"></form-feedback> -->
 
       </v-card-text>
       <v-card-actions>
-        <submit-button :flat="true" :form="form" :label="$t('update')"></submit-button>
+        <submit-button :block="true" :form="form" :label="$t('update')"></submit-button>
       </v-card-actions>
     </form>
   </v-card>
@@ -46,8 +56,9 @@ export default {
   name: 'password-view',
   data: () => ({
     form: new Form({
-      password: '',
-      password_confirmation: ''
+      old_password: '',
+      new_password: '',
+      new_password2: '',
     }),
     eye: true
   }),
@@ -58,7 +69,7 @@ export default {
 
       this.$emit('busy', true)
 
-      await this.form.patch('/api/settings/password')
+      await this.form.patch(this.$baseURL + 'api/change_password')
 
       this.form.reset()
       this.$emit('busy', false)
