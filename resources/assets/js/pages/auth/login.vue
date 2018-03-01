@@ -80,7 +80,6 @@ export default {
       this.$data.form['remember'] = this.remember
       // Submit the form.
       const { data: { token } } = await this.form.post(this.$baseURL + 'api/login')
-      console.log(token)
       // Save the token.
       this.$store.dispatch('saveToken', {
         token: token,
