@@ -77,30 +77,22 @@ export default {
   methods: {
     async login () {
       if (await this.formHasErrors()) return this.busy = true
-
+      this.$data.form['remember'] = this.remember
       // Submit the form.
-      const { data } = await this.form.post(this.$baseURL + 'api/login')
-      if (data.errors != null) {
-          this.$store.dispatch('responseMessage', {
-           type: 'warning',
-           text: data.errors[Object.keys(data.errors)[0]]
-         })
-         this.busy = false
-      }
-      else {
-        // Save the token.
-        this.$store.dispatch('saveToken', {
-          token: data.token,
-          remember: this.remember
-        })
+      await this.form.post(this.$baseURL + 'api/login')
 
-        // Fetch the user.
-        /await this.$store.dispatch('fetchUser')
-        this.busy = false
+      // Save the token.
+      this.$store.dispatch('saveToken', {
+        token: data.token,
+        remember: this.remember
+      })
 
-        // Redirect home.
-        this.$router.push({ name: 'home' })
-      }
+      // Fetch the user.
+      await this.$store.dispatch('fetchUser')
+      this.busy = false
+
+      // Redirect home.
+      this.$router.push({ name: 'home' })
     }
   }
 }
