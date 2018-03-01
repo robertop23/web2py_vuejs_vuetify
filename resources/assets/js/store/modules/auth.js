@@ -62,7 +62,6 @@ export const actions = {
       const {
         data
       } = await axios.get('api/user')
-
       commit(types.FETCH_USER_SUCCESS, {
         user: data
       })
