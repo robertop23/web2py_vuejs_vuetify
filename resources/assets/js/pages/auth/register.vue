@@ -63,9 +63,11 @@
               name="password_confirmation"
               v-validate="'required|confirmed:password'"
             ></password-input>
-
-            <submit-button :block="true" :form="form" :label="$t('register')"></submit-button>
+            
           </v-card-text>
+          <v-card-actions>
+            <submit-button :block="true" :form="form" :label="$t('register')"></submit-button>
+          </v-card-actions>
         </form>
       </v-card>
     </v-flex>
