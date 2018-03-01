@@ -11,7 +11,6 @@
         </template>
       </v-toolbar-items>
     </v-toolbar>
-    <main>
       <v-content>
         <v-container fluid>
           <v-layout column align-center>
@@ -32,7 +31,6 @@
           </v-layout>
         </v-container>
       </v-content>
-    </main>
   </div>
 </template>
 
