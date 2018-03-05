@@ -5,7 +5,7 @@ import * as types from '../mutation-types'
 // state
 export const state = {
   user: null,
-  token: Cookies.get('token_' + window.config.appName)
+  token: Cookies.get('token_' + window.config.appName),
 }
 
 // mutations
@@ -61,7 +61,7 @@ export const actions = {
     try {
       const {
         data
-      } = await axios.get('api/user')
+      } = await axios.get('/' + window.config.appName + '/api/user')
       commit(types.FETCH_USER_SUCCESS, {
         user: data
       })
@@ -80,12 +80,13 @@ export const actions = {
     commit
   }) {
     try {
-      await axios.get('api/logout')
+      await axios.get('/' + window.config.appName + '/api/logout')
       this.$router.push({ name: 'login' })
     } catch (e) {}
 
     commit(types.LOGOUT)
   }
+
 }
 
 // getters

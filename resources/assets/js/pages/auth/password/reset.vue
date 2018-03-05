@@ -9,15 +9,6 @@
           </v-card-title>
           <v-card-text>
 
-            <!-- Email -->
-            <email-input
-              :form="form"
-              :label="$t('email')"
-              :v-errors="errors"
-              :value.sync="form.email"
-              name="email"
-              v-validate="'required|email'"
-            ></email-input>
 
             <!-- Password -->
             <password-input
@@ -26,7 +17,7 @@
               :v-errors="errors"
               :value.sync="form.password"
               v-on:eye="eye = $event"
-              v-validate="'required|min:8'"
+              v-validate="'required|min:6'"
             ></password-input>
 
             <!-- Password Confirmation -->
@@ -44,7 +35,7 @@
 
           </v-card-text>
           <v-card-actions>
-            <submit-button :flat="true" :form="form" :label="$t('reset_password')"></submit-button>
+            <submit-button :block="true" :form="form" :label="$t('reset_password')"></submit-button>
           </v-card-actions>
         </form>
       </v-card>
@@ -77,11 +68,11 @@ export default {
       if (await this.formHasErrors()) return
 
       this.form.token = this.$route.params.token
-
-      const response = await this.form.post('/api/password/reset')
+      const {data: {status, user }} = await this.form.post('/' + window.config.appName + '/api/reset')
+      this.form.email = user.email
 
       // Login user if reset successful.
-      const { data } = await this.form.post('/user/login')
+      const { data } = await this.form.post('/' + window.config.appName + '/api/login')
 
       // Save the token.
       this.$store.dispatch('saveToken', {
@@ -94,7 +85,7 @@ export default {
 
       this.$store.dispatch('responseMessage', {
         type: 'success',
-        text: response.data.status
+        text: status
       })
 
       // Redirect home.

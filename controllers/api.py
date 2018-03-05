@@ -123,6 +123,41 @@ def change_password():
     else:
         error = ['{}'.format(v) for k, v in authentication['errors'].iteritems()][0]
         raise HTTP(400, error.replace('_', ' ').lower().capitalize())
+
+
+def request_reset_password():
+    site_url = '{}:{}/{}'.format(request.env.remote_addr,
+                                 request.env.server_port, request.application)
+    auth.messages.reset_password = 'please click this link http://{}/reset/?key={}'.format(
+        site_url, key)
+    form = auth.request_reset_password()
+    form.custom.submit['_data-theme'] = 'e'
+    form.custom.submit['_data-ajax'] = 'false'
+    return dict(form=form)
+
+
+@api_requires_extension
+def reset():
+    token = request.vars.token
+    password = request.vars.password
+    password_confirmation = request.vars.password_confirmation
+    user = db(db.auth_user.reset_password_key == token).select().first()
+    if user:
+        if password == password_confirmation:
+            result = user.update_record(password=CRYPT(
+                key=auth.settings.hmac_key)(password)[0], reset_password_key='')
+            db.commit()
+            if result:
+                return {'status': 'password updated', 'user': {'email': user.email}}
+            else:
+                raise HTTP(400, 'error while update password')
+        else:
+            raise HTTP(400, 'password and password confirmation mismatch')
+    else:
+        print 'here'
+        raise HTTP(400, 'invalid reset token')
+
+
 # Test jwt
 
 

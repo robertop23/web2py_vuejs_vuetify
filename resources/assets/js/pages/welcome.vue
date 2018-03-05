@@ -50,7 +50,14 @@ export default {
   }),
 
   data: () => ({
-    title: window.config.appName
-  })
+    title: window.config.appName,
+  }),
+  created() {
+    var token = this.$route.query.token
+    if (token != undefined){
+      // Redirect reset.
+      this.$router.push({ path: '/', name: 'password.reset', params: { token: token }})
+    }
+  },
 }
 </script>

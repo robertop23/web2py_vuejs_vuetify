@@ -32,5 +32,8 @@
   "new_password": "New Password",
   "password_length_hint": "At least 6 characters",
   "nav_menu_title": "Application Menu",
-  "last_name": "Last name"
+  "last_name": "Last name",
+  "reset_code_validation": "Reset Password Code Validation",
+  "reset_code": "Reset Password Code",
+  "validate_reset": "Validate Reset Password Code"
 }
