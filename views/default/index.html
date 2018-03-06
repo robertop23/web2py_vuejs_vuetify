@@ -3,7 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>{%= request.application %}</title>
+  {%
+    from gluon.contrib.appconfig import AppConfig
+    myconf = AppConfig()
+    app_title = myconf.take('app.name')
+  %}
+  <title>{%= app_title %}</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
   <link rel="shortcut icon" href="{%=URL('static','images/favicon.ico')%}" type="image/x-icon">
   {%
@@ -23,6 +28,7 @@
      config['appName'] = request.application
      config['locale'] =  T.accepted_language
      config['translations'] =  json.loads(language_file)
+     config['appTitle'] = app_title
   %}
   <script>window.config = {%= XML(json.dumps(config))%}</script>
 
