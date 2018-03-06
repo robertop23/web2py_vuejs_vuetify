@@ -43,8 +43,12 @@ The Vue files are inside resources folder
     - <strike>Fix vue routing</strike>
     - <strike>login</strike>
     - <strike>logout</strike>
-    - register
-    - reset password
+    - <strike>register</strike>
+    - <strike>reset password</strike>
+    - Test
+  - Join web2py translations with inner translations?
+  - Join Web2py Menu with vue menu?
+  - Better looking Frontpage
 
 ## Contributing:
 
