@@ -3,7 +3,7 @@
     <v-toolbar-side-icon @click.stop="toggleDrawer" v-if="authenticated"></v-toolbar-side-icon>
     <v-toolbar-title>
       <router-link :to="{ name: 'welcome' }" class="white--text">
-        {{ appName }}
+        {{ appTitle }}
       </router-link>
     </v-toolbar-title>
     <v-spacer></v-spacer>
@@ -41,7 +41,7 @@ export default {
   },
 
   data: () => ({
-    appName: window.config.appName,
+    appTitle: window.config.appTitle,
     busy: false
   }),
 
