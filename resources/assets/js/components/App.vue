@@ -29,7 +29,7 @@ export default {
   },
 
   metaInfo () {
-    const { appName } = window.config
+    const { appTitle } = window.config
 
     return {
       title: appTitle,
