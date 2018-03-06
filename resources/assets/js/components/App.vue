@@ -32,8 +32,8 @@ export default {
     const { appName } = window.config
 
     return {
-      title: appName,
-      titleTemplate: `%s · ${appName}`
+      title: appTitle,
+      titleTemplate: `%s · ${appTitle}`
     }
   },
 
