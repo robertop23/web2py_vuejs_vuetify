@@ -21,7 +21,7 @@
 
           </v-card-text>
           <v-card-actions>
-            <submit-button :flat="true" :form="form" :label="$t('send_password_reset_link')"></submit-button>
+            <submit-button :block="true" :form="form" :label="$t('send_password_reset_link')"></submit-button>
           </v-card-actions>
         </form>
       </v-card>
@@ -49,7 +49,7 @@ export default {
     async send () {
       if (await this.formHasErrors()) return
 
-      const { data } = await this.form.post('/api/password/email')
+      const { data } = await this.form.post(this.$baseURL + 'api/request_reset_password')
 
       this.$store.dispatch('responseMessage', {
         type: 'success',

@@ -2,10 +2,18 @@ import json
 from gluon.tools import AuthJWT, AuthAPI
 import requests
 import hashlib
+from gluon.contrib.appconfig import AppConfig
+from gluon.tools import Mail
+import uuid
+
+myconf = AppConfig()
 
 myjwt = AuthJWT(auth, secret_key='secret')
 
-# Decorators
+mail = Mail()
+mail.settings.server = myconf.take('smtp.server')
+mail.settings.sender = myconf.take('smtp.sender')
+mail.settings.login = myconf.take('smtp.login')
 
 
 def api_requires_extension(func):
@@ -126,14 +134,29 @@ def change_password():
 
 
 def request_reset_password():
-    site_url = '{}:{}/{}'.format(request.env.remote_addr,
-                                 request.env.server_port, request.application)
-    auth.messages.reset_password = 'please click this link http://{}/reset/?key={}'.format(
-        site_url, key)
-    form = auth.request_reset_password()
-    form.custom.submit['_data-theme'] = 'e'
-    form.custom.submit['_data-ajax'] = 'false'
-    return dict(form=form)
+    email = request.vars.email
+    user = db(db.auth_user.email == email).select().first()
+    if user:
+        key = uuid.uuid4()
+        result = user.update_record(reset_password_key=key)
+        db.commit()
+        if result:
+            site_url = '{}:{}/{}'.format(request.env.remote_addr,
+                                         request.env.server_port, request.application)
+            message = 'To reset your password please click this link http://{}/?token={}'.format(
+                site_url, key)
+            if mail.send(to=email,
+                         subject='password reset',
+                         message=message):
+                return {'status': 'reset password code sended'}
+            else:
+                raise HTTP(400, 'error sending email')
+        else:
+            raise HTTP(400, 'error requesting reset password code')
+    else:
+        raise HTTP(400, 'invalid email')
+
+    return dict()
 
 
 @api_requires_extension
@@ -154,8 +177,7 @@ def reset():
         else:
             raise HTTP(400, 'password and password confirmation mismatch')
     else:
-        print 'here'
-        raise HTTP(400, 'invalid reset token')
+        raise HTTP(400, 'invalid/expired reset token')
 
 
 # Test jwt
