@@ -21,7 +21,7 @@
   {%# Global configuration object %}
   {% import urllib2 %}
   {% import json %}
-  {% lng_file_url = 'http://{}:{}/{}/static/public/lang/{}.json'.format(request.env.remote_addr, request.env.server_port, request.application, T.accepted_language[:2])%}
+  {% lng_file_url = '{}://{}/{}/static/public/lang/en.json'.format(request.env.wsgi_url_scheme, request.env.http_host, request.application) %}
   {% language_file = urllib2.urlopen(lng_file_url).read() %}
   {% config = {} %}
   {%
